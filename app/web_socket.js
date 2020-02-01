@@ -44,6 +44,10 @@ function startTimerDataHistory() {
 		timerDataHistory = null;
 	}
 	
+	if (SerialPort.isSerialPortOpened()) {
+		module.exports.sendSaveHistoryData();
+	}
+	
 	timerDataHistory = setInterval(function() {
 		if (SerialPort.isSerialPortOpened()) {
 			module.exports.sendSaveHistoryData();
