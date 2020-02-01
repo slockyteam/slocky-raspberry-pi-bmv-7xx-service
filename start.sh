@@ -1,4 +1,4 @@
 #!/bin/sh
 
-#sudo forever start -c "npm start" ./
-npm start
+sudo forever start -c "npm start" ./
+#npm start
