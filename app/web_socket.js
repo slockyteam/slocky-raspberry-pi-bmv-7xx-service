@@ -14,7 +14,6 @@ const SerialPort = require('./serial_port.js');
 var lastPongDate;
 var webSocketConnection;
 var timerUpdateData;
-var timerDataHistory;
 
 /*
  * Methods
@@ -35,30 +34,6 @@ function stopTimerUpdateData() {
 	if (timerUpdateData != null) {
 		clearInterval(timerUpdateData);
 		timerUpdateData = null;
-	}
-};
-
-function startTimerDataHistory() {
-	if (timerDataHistory != null) {
-		clearInterval(timerDataHistory);
-		timerDataHistory = null;
-	}
-	
-	if (SerialPort.isSerialPortOpened()) {
-		module.exports.sendSaveHistoryData();
-	}
-	
-	timerDataHistory = setInterval(function() {
-		if (SerialPort.isSerialPortOpened()) {
-			module.exports.sendSaveHistoryData();
-		}
-	}, SharedManager.service.settings.data_history_saving_interval);
-};
-
-function stopTimerDataHistory() {
-	if (timerDataHistory != null) {
-		clearInterval(timerDataHistory);
-		timerDataHistory = null;
 	}
 };
 
@@ -129,7 +104,6 @@ module.exports.connect = function() {
 			lastPongDate = new Date();
 			
 			startTimerUpdateData();
-			startTimerDataHistory();
 		});
 	
 		webSocketConnection.on('close', function(error) {
@@ -144,7 +118,6 @@ module.exports.connect = function() {
 			webSocketConnection = null;
 			
 			stopTimerUpdateData();
-			stopTimerDataHistory();
 		});
 	
 		webSocketConnection.on('ping', function(data) {
@@ -227,7 +200,6 @@ module.exports.closeConnection = function() {
 		webSocketConnection = null;
 		
 		stopTimerUpdateData();
-		stopTimerDataHistory();
 	}
 };
 
