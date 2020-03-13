@@ -27,7 +27,7 @@ function startTimerUpdateData() {
 	
 	timerUpdateData = setInterval(function() {
 		module.exports.sendUpdateData();
-	}, SharedManager.service.settings.web_socket_update_data_interval);
+	}, SharedManager.serviceSettings.web_socket_update_data_interval);
 };
 
 function stopTimerUpdateData() {
@@ -59,7 +59,7 @@ module.exports.init = function() {
 			  	device_identifier: SharedManager.deviceSettings.device_identifier
 			});
 		}	
-	}, SharedManager.deviceSettings.web_socket_ping_interval);
+	}, SharedManager.serviceSettings.web_socket_ping_interval);
 	
 	setInterval(function() {
 		if (lastPongDate != null) {
@@ -78,7 +78,7 @@ module.exports.init = function() {
 		if (webSocketConnection == null) {
 			module.exports.connect();
 		}
-	}, SharedManager.deviceSettings.web_socket_reconnect_interval);
+	}, SharedManager.serviceSettings.web_socket_reconnect_interval);
 };
 
 module.exports.connect = function() {
