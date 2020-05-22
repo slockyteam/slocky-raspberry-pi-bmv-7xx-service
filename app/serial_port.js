@@ -18,7 +18,7 @@ var sendFirst = false;
  */
 
 module.exports.openSerialPort = function() {
-	if (SharedManager.service.settings.serial_port != null && SharedManager.service.settings.baud_rate != null) {
+	if (SharedManager.service.settings.serial_port.port != null && SharedManager.service.settings.serial_port.baud_rate != null) {
 		if (SharedManager.service.settings.status_led_gpio_pin != null) {
 			exec('echo "' + String(SharedManager.service.settings.status_led_gpio_pin) + '" > /sys/class/gpio/export', (error, stdout, stderr) => {
 			});
@@ -28,17 +28,17 @@ module.exports.openSerialPort = function() {
 			});
 		}
 		
-		module.exports.serialPort = new SerialPort(SharedManager.service.settings.serial_port, { 
-		    baudRate: SharedManager.service.settings.baud_rate, 
-		    databits: SharedManager.service.settings.databits, 
-		    parity: SharedManager.service.settings.parity, 
-		    stopBits: SharedManager.service.settings.stop_bits, 
-		    flowControl: SharedManager.service.settings.flow_control
+		module.exports.serialPort = new SerialPort(SharedManager.service.settings.serial_port.port, { 
+		    baudRate: SharedManager.service.settings.serial_port.baud_rate, 
+		    databits: SharedManager.service.settings.serial_port.databits, 
+		    parity: SharedManager.service.settings.serial_port.parity, 
+		    stopBits: SharedManager.service.settings.serial_port.stop_bits, 
+		    flowControl: SharedManager.service.settings.serial_port.flow_control
 		}, function (error) {
 			if (error) {
 				console.log(error);
 			} else {
-				console.log('Serial port: ' + SharedManager.service.settings.serial_port  + ' opened.');
+				console.log('Serial port: ' + SharedManager.service.settings.serial_port.port  + ' opened.');
 				
 				parser = module.exports.serialPort.pipe(new ByteLength({ length: 1 }));
 				
