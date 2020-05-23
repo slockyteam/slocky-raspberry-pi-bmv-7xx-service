@@ -30,7 +30,8 @@ router.get('/service_info', function(req, res) {
 		service_folder: SharedManager.service.service_folder,
 	  	device_identifier: SharedManager.deviceSettings.device_identifier,
 	  	service_version: SharedManager.serviceSettings.service_version,
-	  	manufacturer: SharedManager.service.manufacturer
+	  	manufacturer: SharedManager.service.manufacturer,
+	  	local_api_server_port: SharedManager.service.local_api_server_port
 	};
 	
 	return res.status(200).send(results);
