@@ -23,6 +23,9 @@ router.get('/', function(req, res) {
 });
 
 router.get('/service_info', function(req, res) {
+	var data = SerialPort.data;
+	data.serial_port_opened = SerialPort.isSerialPortOpened();
+	
 	var results = {
 		status: WebSocket.isConnected() ? 'online' : 'offline',
 		service_alias: SharedManager.service.service_alias,
@@ -31,17 +34,11 @@ router.get('/service_info', function(req, res) {
 	  	device_identifier: SharedManager.deviceSettings.device_identifier,
 	  	service_version: SharedManager.serviceSettings.service_version,
 	  	manufacturer: SharedManager.service.manufacturer,
-	  	local_api_server_port: SharedManager.service.local_api_server_port
+	  	local_api_server_port: SharedManager.service.local_api_server_port,
+	  	data: data
 	};
 	
 	return res.status(200).send(results);
-});
-
-router.get('/data', function(req, res) {
-	var data = SerialPort.data;
-	data.serial_port_opened = SerialPort.isSerialPortOpened();
-	
-	return res.status(200).send(data);
 });
 
 /**
