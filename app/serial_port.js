@@ -12,6 +12,7 @@ const SharedManager = require('./shared_manager.js');
 var parser;
 module.exports.data = {};
 var sendFirst = false;
+var ledTimer;
 
 /*
  * Methods
@@ -124,7 +125,6 @@ module.exports.openSerialPort = function() {
 								}
 								
 								bytesSum = 0;
-								dict = {};
 								break;
 							}
 						}
