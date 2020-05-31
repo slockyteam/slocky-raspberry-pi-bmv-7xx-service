@@ -11,7 +11,6 @@ const SharedManager = require('./shared_manager.js');
 
 var parser;
 module.exports.data = {};
-var sendFirst = false;
 var ledTimer;
 
 /*
@@ -101,12 +100,6 @@ module.exports.openSerialPort = function() {
 								if ((bytesSum % 256) == 0) {
 									dict.timestamp = new Date();
 									module.exports.data = Object.assign({}, dict);
-									
-									if (!sendFirst) {
-										sendFirst = true;
-										
-										WebSocket.sendUpdateData();
-									}
 									
 									if (SharedManager.service.settings.status_led_gpio_pin != null) {
 										exec('echo "1" > /sys/class/gpio/gpio' + String(SharedManager.service.settings.status_led_gpio_pin) + '/value', (error, stdout, stderr) => {
