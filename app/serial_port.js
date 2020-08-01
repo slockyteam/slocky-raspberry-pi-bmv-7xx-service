@@ -102,7 +102,9 @@ module.exports.openSerialPort = function() {
 								
 								if ((bytesSum % 256) == 0) {
 									dict.timestamp = new Date();
-									module.exports.data = Object.assign({}, dict);
+									module.exports.data = Object.assign(module.exports.data, dict);
+									
+									console.log(module.exports.data);
 									
 									dict = {};
 									
