@@ -83,7 +83,10 @@ module.exports.openSerialPort = function() {
 								if (byteValue == 0x0D) {
 									state = 'wait_header';
 									
-									dict[key] = value;
+									if (!key.includes('\r\n') && !key.startsWith(':')) {
+										dict[key] = value;
+									}
+									
 									key = '';
 									value = '';
 								} else {
@@ -100,6 +103,8 @@ module.exports.openSerialPort = function() {
 								if ((bytesSum % 256) == 0) {
 									dict.timestamp = new Date();
 									module.exports.data = Object.assign({}, dict);
+									
+									dict = {};
 									
 									if (SharedManager.service.settings.status_led_gpio_pin != null) {
 										exec('echo "1" > /sys/class/gpio/gpio' + String(SharedManager.service.settings.status_led_gpio_pin) + '/value', (error, stdout, stderr) => {
